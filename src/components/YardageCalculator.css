@@ -1,0 +1,258 @@
+.yardage-calculator {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.yardage-calculator .section {
+  width: 100%;
+}
+
+.yardage-calculator .section-title {
+  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.yardage-calculator .card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.yardage-calculator .card h3 {
+  color: var(--text-primary);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+}
+
+.yardage-calculator .card h4 {
+  color: var(--text-primary);
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.yardage-calculator .formula-box {
+  background: var(--bg-primary);
+  border-left: 4px solid var(--accent-color);
+  padding: 1.25rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.yardage-calculator .formula-box p {
+  margin: 0 0 0.75rem 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.yardage-calculator .formula-box code {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  color: var(--accent-color);
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.yardage-calculator .formula-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.yardage-calculator .formula-legend div {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.yardage-calculator input,
+.yardage-calculator select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.yardage-calculator input::placeholder {
+  color: var(--text-secondary);
+}
+
+.yardage-calculator input:focus,
+.yardage-calculator select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(102, 154, 253, 0.1);
+}
+
+.yardage-calculator label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.yardage-calculator .grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.yardage-calculator .grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.yardage-calculator .btn-primary {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.85rem 2rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.yardage-calculator .btn-primary:hover {
+  background: #5a8ce6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 154, 253, 0.3);
+}
+
+.yardage-calculator .result-card {
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+  border-left: 4px solid var(--accent-color);
+}
+
+.yardage-calculator .result-display {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.yardage-calculator .result-value {
+  margin-bottom: 1rem;
+}
+
+.yardage-calculator .result-value strong {
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.yardage-calculator .large-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  margin: 0;
+}
+
+.yardage-calculator .result-legend {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.yardage-calculator .result-legend p {
+  margin: 0;
+}
+
+.yardage-calculator .conversion-box {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.yardage-calculator .conversion-box h4 {
+  margin-top: 0;
+  color: var(--text-primary);
+}
+
+.yardage-calculator .conversion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.yardage-calculator .conversion-item {
+  background: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.yardage-calculator .conversion-item strong {
+  display: block;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.yardage-calculator .conversion-item p {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.yardage-calculator .calculation-breakdown {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.yardage-calculator .calculation-breakdown h4 {
+  margin-top: 0;
+  color: var(--text-primary);
+}
+
+.yardage-calculator .breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.yardage-calculator .breakdown-item {
+  background: var(--bg-secondary);
+  padding: 1.25rem;
+  border-radius: 4px;
+  border-left: 3px solid var(--accent-color);
+}
+
+.yardage-calculator .breakdown-item strong {
+  display: block;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.yardage-calculator .breakdown-item p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  font-family: 'Courier New', monospace;
+}

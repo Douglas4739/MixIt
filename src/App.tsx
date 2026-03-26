@@ -5,13 +5,14 @@ import MixDesignManager from './components/MixDesignManager';
 import ColorDesignManager from './components/ColorDesignManager';
 import BatchCalculator from './components/BatchCalculator';
 import VolumeCalculator from './components/VolumeCalculator';
+import YardageCalculator from './components/YardageCalculator';
 
 function App() {
   const [mixDesigns, setMixDesigns] = useState<MixDesign[]>([]);
   const [selectedMixId, setSelectedMixId] = useState<string>('');
   const [colorDesigns, setColorDesigns] = useState<ColorDesign[]>([]);
   const [selectedColorId, setSelectedColorId] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'calculator' | 'designs' | 'colors' | 'volume'>('calculator');
+  const [activeTab, setActiveTab] = useState<'calculator' | 'designs' | 'colors' | 'volume' | 'yardage'>('calculator');
 
   // Load mix designs from localStorage
   useEffect(() => {
@@ -145,6 +146,12 @@ function App() {
         >
           Volume Calculator
         </button>
+        <button
+          className={`nav-tab ${activeTab === 'yardage' ? 'active' : ''}`}
+          onClick={() => setActiveTab('yardage')}
+        >
+          Yardage Calculator
+        </button>
       </nav>
 
       <main className="app-content">
@@ -179,6 +186,7 @@ function App() {
           />
         )}
         {activeTab === 'volume' && <VolumeCalculator />}
+        {activeTab === 'yardage' && <YardageCalculator />}
       </main>
     </div>
   );
