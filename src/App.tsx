@@ -185,7 +185,7 @@ function App() {
             onSelect={setSelectedColorId}
           />
         )}
-        {activeTab === 'volume' && <VolumeCalculator />}
+        {activeTab === 'volume' && <VolumeCalculator mixDesigns={mixDesigns} />}
         {activeTab === 'yardage' && <YardageCalculator />}
       </main>
     </div>

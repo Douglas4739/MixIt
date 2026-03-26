@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './VolumeCalculator.css';
+import { MixDesign } from '../types';
 
 interface VolumeInput {
   length: number;
@@ -10,6 +11,10 @@ interface VolumeInput {
   massBatch: number;
 }
 
+interface VolumeCalculatorProps {
+  mixDesigns: MixDesign[];
+}
+
 type DimensionUnit = 'inches' | 'feet';
 
 const UNIT_CONVERSIONS: Record<DimensionUnit, number> = {
@@ -17,7 +22,7 @@ const UNIT_CONVERSIONS: Record<DimensionUnit, number> = {
   feet: 12,
 };
 
-export default function VolumeCalculator() {
+export default function VolumeCalculator({ mixDesigns }: VolumeCalculatorProps) {
   const [inputs, setInputs] = useState<VolumeInput>({
     length: 0,
     width: 0,
@@ -27,6 +32,7 @@ export default function VolumeCalculator() {
     massBatch: 0,
   });
   const [dimensionUnit, setDimensionUnit] = useState<DimensionUnit>('inches');
+  const [selectedMixId, setSelectedMixId] = useState<string>('');
   const [result, setResult] = useState<number | null>(null);
 
   const handleInputChange = (field: keyof VolumeInput, value: number) => {
@@ -34,6 +40,22 @@ export default function VolumeCalculator() {
       ...inputs,
       [field]: value,
     });
+  };
+
+  const handleMixChange = (mixId: string) => {
+    setSelectedMixId(mixId);
+    if (!mixId) {
+      return;
+    }
+
+    const mix = mixDesigns.find((m) => m.id === mixId);
+    if (mix) {
+      setInputs({
+        ...inputs,
+        density: mix.characteristics.density,
+        massBatch: mix.characteristics.mass,
+      });
+    }
   };
 
   const calculateBatches = (e: React.FormEvent) => {
@@ -143,6 +165,20 @@ export default function VolumeCalculator() {
           </div>
 
           <h4>Mix Properties</h4>
+          <div className="grid-2">
+            <div>
+              <label>Select Mix Design</label>
+              <select value={selectedMixId} onChange={(e) => handleMixChange(e.target.value)}>
+                <option value="">-- Manual / Custom --</option>
+                {mixDesigns.map((mix) => (
+                  <option key={mix.id} value={mix.id}>
+                    {mix.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           <div className="grid-3">
             <div>
               <label>Density of Mix (lbs/ft³) *</label>
