@@ -38,6 +38,14 @@ A React-based web application for calculating material quantities for concrete a
   - M = Mass of a batch (lbs)
 - Shows step-by-step calculation breakdown with converted values
 
+### 5. **Yardage Calculator**
+- Calculate volume from dimensions (length × width × height)
+- Select dimension units: **Inches** or **Feet**
+- View results in **Cubic Feet (ft³)** or **Cubic Yards (yd³)**
+- Uses the formula: `L × W × H`
+- Displays conversion summary showing both ft³ and yd³
+- Shows detailed calculation breakdown with unit conversions
+
 ## Getting Started
 
 ### Installation
@@ -125,6 +133,20 @@ Preview the production build locally.
 6. Enter the mass of one batch
 7. Click **"Calculate Batches Needed"**
 8. View the result and calculation breakdown with converted values
+
+### Using the Yardage Calculator
+
+1. Go to the **Yardage Calculator** tab
+2. Select your preferred **Dimension Unit** (Inches or Feet)
+3. Enter your dimensions:
+   - Length (L)
+   - Width (W)
+   - Height (H)
+4. Select your preferred **Output Unit** (Cubic Feet or Cubic Yards)
+5. Click **"Calculate Volume"**
+6. View the result in your chosen unit
+7. See the conversion summary showing both ft³ and yd³
+8. Review the detailed calculation breakdown with all conversions
 
 ## Technology Stack
 
