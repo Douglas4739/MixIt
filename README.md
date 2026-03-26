@@ -17,7 +17,15 @@ A React-based web application for calculating material quantities for concrete a
 - **Delete** mix designs you no longer need
 - All designs are saved to browser local storage for persistence
 
-### 3. **Volume Calculator**
+### 3. **Color Design Manager**
+- **Create** new color designs with custom pigments
+- **Read** all your saved color designs
+- **Update** existing color designs
+- **Delete** color designs you no longer need
+- Each color design includes pigment names, quantities, and units
+- All designs are saved to browser local storage for persistence
+
+### 4. **Volume Calculator**
 - Calculate batches needed based on mold dimensions
 - Uses the formula: `(L × W × H ÷ 1,728) × D × N ÷ M`
 - Where:
@@ -61,9 +69,9 @@ npm run preview
 
 Preview the production build locally.
 
-## Sample Mix Designs
+## Sample Designs
 
-### Lightweight Batch VP
+### Lightweight Batch VP (Mix Design)
 - **Cement**: 94 lbs
 - **Plasticizer**: 45 g
 - **Lightweight mix**: 338.25 lbs
@@ -71,6 +79,9 @@ Preview the production build locally.
 - **Density**: 120.475 lbs/ft³
 - **Volume**: 4 ft³
 - **Mass per batch**: 481.9 lbs
+
+### 877 (Color Design)
+- **877 Pigment**: 1 lbs
 
 ## Usage Guide
 
@@ -91,6 +102,16 @@ Preview the production build locally.
    - Material names, quantities, and units
    - Density, volume, and mass characteristics
 4. Click **"Create Mix Design"** to save
+5. Use the **Edit** and **Delete** buttons to manage existing designs
+
+### Managing Color Designs
+
+1. Go to the **Color Designs** tab
+2. Click **"+ New Color Design"** to create a new design
+3. Fill in:
+   - Color design name (e.g., 877)
+   - Pigment names, quantities, and units
+4. Click **"Create Color Design"** to save
 5. Use the **Edit** and **Delete** buttons to manage existing designs
 
 ### Using the Volume Calculator
