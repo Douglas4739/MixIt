@@ -7,6 +7,12 @@ interface YardageInput {
   height: number;
 }
 
+interface DimensionUnits {
+  length: DimensionUnit;
+  width: DimensionUnit;
+  height: DimensionUnit;
+}
+
 type DimensionUnit = 'inches' | 'feet';
 type OutputUnit = 'cubic-feet' | 'cubic-yards';
 
@@ -21,7 +27,11 @@ export default function YardageCalculator() {
     width: 0,
     height: 0,
   });
-  const [dimensionUnit, setDimensionUnit] = useState<DimensionUnit>('feet');
+  const [dimensionUnits, setDimensionUnits] = useState<DimensionUnits>({
+    length: 'feet',
+    width: 'feet',
+    height: 'inches',
+  });
   const [outputUnit, setOutputUnit] = useState<OutputUnit>('cubic-feet');
   const [result, setResult] = useState<number | null>(null);
 
@@ -32,16 +42,22 @@ export default function YardageCalculator() {
     });
   };
 
+  const handleUnitChange = (field: keyof DimensionUnits, value: DimensionUnit) => {
+    setDimensionUnits({
+      ...dimensionUnits,
+      [field]: value,
+    });
+  };
+
   const calculateVolume = (e: React.FormEvent) => {
     e.preventDefault();
 
     const { length, width, height } = inputs;
 
-    // Convert input dimensions to inches
-    const conversionFactor = UNIT_CONVERSIONS[dimensionUnit];
-    const lengthInches = length * conversionFactor;
-    const widthInches = width * conversionFactor;
-    const heightInches = height * conversionFactor;
+    // Convert each dimension to inches using its specific unit
+    const lengthInches = length * UNIT_CONVERSIONS[dimensionUnits.length];
+    const widthInches = width * UNIT_CONVERSIONS[dimensionUnits.width];
+    const heightInches = height * UNIT_CONVERSIONS[dimensionUnits.height];
 
     // Calculate volume in cubic feet (1728 cubic inches = 1 cubic foot)
     const volumeCubicFeet = (lengthInches * widthInches * heightInches) / 1728;
@@ -52,10 +68,9 @@ export default function YardageCalculator() {
     setResult(volumeResult);
   };
 
-  const conversionFactor = UNIT_CONVERSIONS[dimensionUnit];
-  const lengthInches = inputs.length * conversionFactor;
-  const widthInches = inputs.width * conversionFactor;
-  const heightInches = inputs.height * conversionFactor;
+  const lengthInches = inputs.length * UNIT_CONVERSIONS[dimensionUnits.length];
+  const widthInches = inputs.width * UNIT_CONVERSIONS[dimensionUnits.width];
+  const heightInches = inputs.height * UNIT_CONVERSIONS[dimensionUnits.height];
   const volumeCubicFeet = (lengthInches * widthInches * heightInches) / 1728;
   const volumeCubicYards = volumeCubicFeet / 27;
 
@@ -72,58 +87,75 @@ export default function YardageCalculator() {
             </p>
             <div className="formula-legend">
               <div>
-                <strong>L</strong> = Length ({dimensionUnit})
+                <strong>L</strong> = Length ({dimensionUnits.length})
               </div>
               <div>
-                <strong>W</strong> = Width ({dimensionUnit})
+                <strong>W</strong> = Width ({dimensionUnits.width})
               </div>
               <div>
-                <strong>H</strong> = Height ({dimensionUnit})
+                <strong>H</strong> = Height ({dimensionUnits.height})
               </div>
             </div>
           </div>
 
           <h4>Dimensions</h4>
-          <div className="grid-2">
-            <div>
-              <label>Dimension Unit</label>
-              <select value={dimensionUnit} onChange={(e) => setDimensionUnit(e.target.value as DimensionUnit)}>
-                <option value="inches">Inches</option>
-                <option value="feet">Feet</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid-3">
-            <div>
+          <div className="dimensions-grid">
+            <div className="dimension-group">
               <label>Length (L) *</label>
-              <input
-                type="number"
-                value={inputs.length}
-                onChange={(e) => handleInputChange('length', Number(e.target.value))}
-                placeholder="e.g., 10"
-                step="0.1"
-              />
+              <div className="input-with-unit">
+                <input
+                  type="number"
+                  value={inputs.length}
+                  onChange={(e) => handleInputChange('length', Number(e.target.value))}
+                  placeholder="e.g., 10"
+                  step="0.1"
+                />
+                <select
+                  value={dimensionUnits.length}
+                  onChange={(e) => handleUnitChange('length', e.target.value as DimensionUnit)}
+                >
+                  <option value="inches">in</option>
+                  <option value="feet">ft</option>
+                </select>
+              </div>
             </div>
-            <div>
+            <div className="dimension-group">
               <label>Width (W) *</label>
-              <input
-                type="number"
-                value={inputs.width}
-                onChange={(e) => handleInputChange('width', Number(e.target.value))}
-                placeholder="e.g., 10"
-                step="0.1"
-              />
+              <div className="input-with-unit">
+                <input
+                  type="number"
+                  value={inputs.width}
+                  onChange={(e) => handleInputChange('width', Number(e.target.value))}
+                  placeholder="e.g., 10"
+                  step="0.1"
+                />
+                <select
+                  value={dimensionUnits.width}
+                  onChange={(e) => handleUnitChange('width', e.target.value as DimensionUnit)}
+                >
+                  <option value="inches">in</option>
+                  <option value="feet">ft</option>
+                </select>
+              </div>
             </div>
-            <div>
+            <div className="dimension-group">
               <label>Height (H) *</label>
-              <input
-                type="number"
-                value={inputs.height}
-                onChange={(e) => handleInputChange('height', Number(e.target.value))}
-                placeholder="e.g., 1"
-                step="0.1"
-              />
+              <div className="input-with-unit">
+                <input
+                  type="number"
+                  value={inputs.height}
+                  onChange={(e) => handleInputChange('height', Number(e.target.value))}
+                  placeholder="e.g., 1"
+                  step="0.1"
+                />
+                <select
+                  value={dimensionUnits.height}
+                  onChange={(e) => handleUnitChange('height', e.target.value as DimensionUnit)}
+                >
+                  <option value="inches">in</option>
+                  <option value="feet">ft</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -155,8 +187,8 @@ export default function YardageCalculator() {
               </div>
               <div className="result-legend">
                 <p>
-                  A space measuring <strong>{inputs.length} {dimensionUnit}</strong> ×{' '}
-                  <strong>{inputs.width} {dimensionUnit}</strong> × <strong>{inputs.height} {dimensionUnit}</strong> has a
+                  A space measuring <strong>{inputs.length} {dimensionUnits.length}</strong> ×{' '}
+                  <strong>{inputs.width} {dimensionUnits.width}</strong> × <strong>{inputs.height} {dimensionUnits.height}</strong> has a
                   volume of <strong>{result.toFixed(2)} {outputUnit === 'cubic-yards' ? 'cubic yards' : 'cubic feet'}</strong>.
                 </p>
               </div>
@@ -182,11 +214,11 @@ export default function YardageCalculator() {
                 <div className="breakdown-item">
                   <strong>Convert to inches</strong>
                   <p>
-                    {inputs.length} {dimensionUnit} × {conversionFactor} = {lengthInches.toFixed(2)}"
+                    {inputs.length} {dimensionUnits.length} × {UNIT_CONVERSIONS[dimensionUnits.length]} = {lengthInches.toFixed(2)}"
                     <br />
-                    {inputs.width} {dimensionUnit} × {conversionFactor} = {widthInches.toFixed(2)}"
+                    {inputs.width} {dimensionUnits.width} × {UNIT_CONVERSIONS[dimensionUnits.width]} = {widthInches.toFixed(2)}"
                     <br />
-                    {inputs.height} {dimensionUnit} × {conversionFactor} = {heightInches.toFixed(2)}"
+                    {inputs.height} {dimensionUnits.height} × {UNIT_CONVERSIONS[dimensionUnits.height]} = {heightInches.toFixed(2)}"
                   </p>
                 </div>
                 <div className="breakdown-item">
