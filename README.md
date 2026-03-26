@@ -27,15 +27,16 @@ A React-based web application for calculating material quantities for concrete a
 
 ### 4. **Volume Calculator**
 - Calculate batches needed based on mold dimensions
+- Select dimension units: **Inches** or **Feet**
 - Uses the formula: `(L × W × H ÷ 1,728) × D × N ÷ M`
 - Where:
-  - L = Length (inches)
-  - W = Width (inches)
-  - H = Height (inches)
+  - L = Length (in selected unit)
+  - W = Width (in selected unit)
+  - H = Height (in selected unit)
   - D = Density of mix (lbs/ft³)
   - N = Number of molds
   - M = Mass of a batch (lbs)
-- Shows step-by-step calculation breakdown
+- Shows step-by-step calculation breakdown with converted values
 
 ## Getting Started
 
@@ -117,12 +118,13 @@ Preview the production build locally.
 ### Using the Volume Calculator
 
 1. Go to the **Volume Calculator** tab
-2. Enter your mold dimensions (L × W × H in inches)
-3. Enter the density of your mix
-4. Specify the number of molds to fill
-5. Enter the mass of one batch
-6. Click **"Calculate Batches Needed"**
-7. View the result and calculation breakdown
+2. Select your preferred **Dimension Unit** (Inches or Feet)
+3. Enter your mold dimensions (L × W × H)
+4. Enter the density of your mix
+5. Specify the number of molds to fill
+6. Enter the mass of one batch
+7. Click **"Calculate Batches Needed"**
+8. View the result and calculation breakdown with converted values
 
 ## Technology Stack
 
