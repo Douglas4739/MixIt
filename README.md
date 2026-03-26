@@ -126,11 +126,11 @@ Preview the production build locally.
 ### Using the Volume Calculator
 
 1. Go to the **Volume Calculator** tab
-2. Select your preferred **Dimension Unit** (Inches or Feet)
-3. Enter your mold dimensions (L × W × H)
-4. Enter the density of your mix
-5. Specify the number of molds to fill
-6. Enter the mass of one batch
+2. Optionally select a **saved Mix Design** from the dropdown (fills Density and Mass automatically)
+3. Or keep manual mode for custom Density and Mass values
+4. Select your preferred **Dimension Unit** (Inches or Feet)
+5. Enter your mold dimensions (L × W × H)
+6. Enter the number of molds to fill
 7. Click **"Calculate Batches Needed"**
 8. View the result and calculation breakdown with converted values
 
