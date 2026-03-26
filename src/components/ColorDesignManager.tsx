@@ -115,6 +115,7 @@ export default function ColorDesignManager({
           <div className="card-row">
             {colorDesigns.map((design) => (
               <div key={design.id} className={`card color-design-card ${selectedId === design.id ? 'selected' : ''}`}>
+                <div className="color-preview" style={{ backgroundColor: `#${design.name.padStart(6, '0')}` }}></div>
                 <h3>{design.name}</h3>
                 <div className="pigments-preview">
                   <strong>Pigments:</strong>

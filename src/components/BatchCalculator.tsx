@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
-import { MixDesign } from '../types';
+import { MixDesign, ColorDesign } from '../types';
 import './BatchCalculator.css';
 
 interface Props {
   mixDesign: MixDesign;
   mixDesigns: MixDesign[];
+  colorDesigns: ColorDesign[];
+  selectedColorId: string;
   onSelectMix: (id: string) => void;
+  onSelectColor: (id: string) => void;
 }
 
-export default function BatchCalculator({ mixDesign, mixDesigns, onSelectMix }: Props) {
+export default function BatchCalculator({ 
+  mixDesign, 
+  mixDesigns, 
+  colorDesigns,
+  selectedColorId,
+  onSelectMix,
+  onSelectColor
+}: Props) {
   const [numBatches, setNumBatches] = useState(1);
+  const selectedColor = colorDesigns.find((d) => d.id === selectedColorId);
 
   const handleBatchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(0.1, Number(e.target.value));
@@ -52,6 +63,20 @@ export default function BatchCalculator({ mixDesign, mixDesigns, onSelectMix }: 
               />
             </div>
           </div>
+
+          {colorDesigns.length > 0 && (
+            <div style={{ marginTop: 'var(--padding-md)' }}>
+              <label>Select Color Design (Optional)</label>
+              <select value={selectedColorId} onChange={(e) => onSelectColor(e.target.value)}>
+                <option value="">-- None --</option>
+                {colorDesigns.map((design) => (
+                  <option key={design.id} value={design.id}>
+                    {design.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
 
         <div className="results-container">
@@ -114,6 +139,40 @@ export default function BatchCalculator({ mixDesign, mixDesigns, onSelectMix }: 
                 <p>{(mixDesign.characteristics.volume * numBatches).toFixed(2)} ft³</p>
               </div>
             </div>
+
+            {selectedColor && (
+              <>
+                <h4>Pigments Needed</h4>
+                <div className="pigments-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Pigment</th>
+                        <th>Per Batch</th>
+                        <th>Unit</th>
+                        <th>×</th>
+                        <th>Batches</th>
+                        <th>=</th>
+                        <th>Total Needed</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {selectedColor.pigments.map((pigment, idx) => (
+                        <tr key={idx}>
+                          <td>{pigment.name}</td>
+                          <td>{pigment.quantity}</td>
+                          <td>{pigment.unit}</td>
+                          <td>×</td>
+                          <td>{numBatches}</td>
+                          <td>=</td>
+                          <td className="highlight">{calculateMaterial(pigment.quantity).toFixed(2)} {pigment.unit}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

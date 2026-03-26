@@ -21,6 +21,11 @@
   margin-bottom: var(--padding-lg);
 }
 
+.pigments-table {
+  overflow-x: auto;
+  margin-bottom: var(--padding-lg);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

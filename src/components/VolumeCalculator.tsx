@@ -10,6 +10,13 @@ interface VolumeInput {
   massBatch: number;
 }
 
+type DimensionUnit = 'inches' | 'feet';
+
+const UNIT_CONVERSIONS: Record<DimensionUnit, number> = {
+  inches: 1,
+  feet: 12,
+};
+
 export default function VolumeCalculator() {
   const [inputs, setInputs] = useState<VolumeInput>({
     length: 0,
@@ -19,6 +26,7 @@ export default function VolumeCalculator() {
     numMolds: 0,
     massBatch: 0,
   });
+  const [dimensionUnit, setDimensionUnit] = useState<DimensionUnit>('inches');
   const [result, setResult] = useState<number | null>(null);
 
   const handleInputChange = (field: keyof VolumeInput, value: number) => {
@@ -38,13 +46,24 @@ export default function VolumeCalculator() {
       return;
     }
 
+    // Convert input dimensions to inches
+    const conversionFactor = UNIT_CONVERSIONS[dimensionUnit];
+    const lengthInches = length * conversionFactor;
+    const widthInches = width * conversionFactor;
+    const heightInches = height * conversionFactor;
+
     // Formula: (L×W×H÷1,728)×D×N÷M
-    const volumePerMold = (length * width * height) / 1728; // Convert cubic inches to cubic feet
+    const volumePerMold = (lengthInches * widthInches * heightInches) / 1728; // Convert cubic inches to cubic feet
     const totalVolume = volumePerMold * density;
     const batchesNeeded = (totalVolume * numMolds) / massBatch;
 
     setResult(batchesNeeded);
   };
+
+  const conversionFactor = UNIT_CONVERSIONS[dimensionUnit];
+  const lengthInches = inputs.length * conversionFactor;
+  const widthInches = inputs.width * conversionFactor;
+  const heightInches = inputs.height * conversionFactor;
 
   return (
     <div className="volume-calculator">
@@ -59,13 +78,13 @@ export default function VolumeCalculator() {
             </p>
             <div className="formula-legend">
               <div>
-                <strong>L</strong> = Length (inches)
+                <strong>L</strong> = Length ({dimensionUnit})
               </div>
               <div>
-                <strong>W</strong> = Width (inches)
+                <strong>W</strong> = Width ({dimensionUnit})
               </div>
               <div>
-                <strong>H</strong> = Height (inches)
+                <strong>H</strong> = Height ({dimensionUnit})
               </div>
               <div>
                 <strong>D</strong> = Density of mix (lbs/ft³)
@@ -79,7 +98,17 @@ export default function VolumeCalculator() {
             </div>
           </div>
 
-          <h4>Mold Dimensions (in inches)</h4>
+          <h4>Mold Dimensions (in {dimensionUnit})</h4>
+          <div className="grid-2">
+            <div>
+              <label>Dimension Unit</label>
+              <select value={dimensionUnit} onChange={(e) => setDimensionUnit(e.target.value as DimensionUnit)}>
+                <option value="inches">Inches</option>
+                <option value="feet">Feet</option>
+              </select>
+            </div>
+          </div>
+
           <div className="grid-3">
             <div>
               <label>Length (L) *</label>
@@ -165,7 +194,7 @@ export default function VolumeCalculator() {
                 <p>
                   To fill <strong>{inputs.numMolds}</strong> mold(s) with dimensions{' '}
                   <strong>
-                    {inputs.length}" × {inputs.width}" × {inputs.height}"
+                    {inputs.length} {dimensionUnit === 'inches' ? '"' : 'ft'} × {inputs.width} {dimensionUnit === 'inches' ? '"' : 'ft'} × {inputs.height} {dimensionUnit === 'inches' ? '"' : 'ft'}
                   </strong>
                   , you need approximately <strong>{Math.ceil(result)}</strong> full batches (or{' '}
                   <strong>{result.toFixed(2)}</strong> batches exactly).
@@ -178,24 +207,24 @@ export default function VolumeCalculator() {
               <div className="breakdown-grid">
                 <div className="breakdown-item">
                   <strong>Volume per mold (ft³)</strong>
-                  <p>({inputs.length} × {inputs.width} × {inputs.height}) ÷ 1,728 = {(inputs.length * inputs.width * inputs.height / 1728).toFixed(4)}</p>
+                  <p>({lengthInches} × {widthInches} × {heightInches}) ÷ 1,728 = {(lengthInches * widthInches * heightInches / 1728).toFixed(4)}</p>
                 </div>
                 <div className="breakdown-item">
                   <strong>Total volume (lbs)</strong>
                   <p>
-                    {(inputs.length * inputs.width * inputs.height / 1728).toFixed(4)} × {inputs.density} = {((inputs.length * inputs.width * inputs.height / 1728) * inputs.density).toFixed(2)}
+                    {(lengthInches * widthInches * heightInches / 1728).toFixed(4)} × {inputs.density} = {((lengthInches * widthInches * heightInches / 1728) * inputs.density).toFixed(2)}
                   </p>
                 </div>
                 <div className="breakdown-item">
                   <strong>Volume × Number of molds</strong>
                   <p>
-                    {((inputs.length * inputs.width * inputs.height / 1728) * inputs.density).toFixed(2)} × {inputs.numMolds} = {(((inputs.length * inputs.width * inputs.height / 1728) * inputs.density) * inputs.numMolds).toFixed(2)}
+                    {((lengthInches * widthInches * heightInches / 1728) * inputs.density).toFixed(2)} × {inputs.numMolds} = {(((lengthInches * widthInches * heightInches / 1728) * inputs.density) * inputs.numMolds).toFixed(2)}
                   </p>
                 </div>
                 <div className="breakdown-item">
                   <strong>Batches needed</strong>
                   <p>
-                    {(((inputs.length * inputs.width * inputs.height / 1728) * inputs.density) * inputs.numMolds).toFixed(2)} ÷ {inputs.massBatch} = {result.toFixed(2)}
+                    {(((lengthInches * widthInches * heightInches / 1728) * inputs.density) * inputs.numMolds).toFixed(2)} ÷ {inputs.massBatch} = {result.toFixed(2)}
                   </p>
                 </div>
               </div>

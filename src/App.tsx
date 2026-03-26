@@ -4,7 +4,6 @@ import { MixDesign, ColorDesign, SAMPLE_MIX_DESIGNS, SAMPLE_COLOR_DESIGNS } from
 import MixDesignManager from './components/MixDesignManager';
 import ColorDesignManager from './components/ColorDesignManager';
 import BatchCalculator from './components/BatchCalculator';
-import ColorCalculator from './components/ColorCalculator';
 import VolumeCalculator from './components/VolumeCalculator';
 
 function App() {
@@ -12,7 +11,7 @@ function App() {
   const [selectedMixId, setSelectedMixId] = useState<string>('');
   const [colorDesigns, setColorDesigns] = useState<ColorDesign[]>([]);
   const [selectedColorId, setSelectedColorId] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'calculator' | 'designs' | 'colorCalc' | 'colorDesigns' | 'volume'>('calculator');
+  const [activeTab, setActiveTab] = useState<'calculator' | 'designs' | 'colors' | 'volume'>('calculator');
 
   // Load mix designs from localStorage
   useEffect(() => {
@@ -135,14 +134,8 @@ function App() {
           Mix Designs
         </button>
         <button
-          className={`nav-tab ${activeTab === 'colorCalc' ? 'active' : ''}`}
-          onClick={() => setActiveTab('colorCalc')}
-        >
-          Color Calculator
-        </button>
-        <button
-          className={`nav-tab ${activeTab === 'colorDesigns' ? 'active' : ''}`}
-          onClick={() => setActiveTab('colorDesigns')}
+          className={`nav-tab ${activeTab === 'colors' ? 'active' : ''}`}
+          onClick={() => setActiveTab('colors')}
         >
           Color Designs
         </button>
@@ -156,7 +149,14 @@ function App() {
 
       <main className="app-content">
         {activeTab === 'calculator' && selectedDesign && (
-          <BatchCalculator mixDesign={selectedDesign} mixDesigns={mixDesigns} onSelectMix={setSelectedMixId} />
+          <BatchCalculator 
+            mixDesign={selectedDesign} 
+            mixDesigns={mixDesigns} 
+            colorDesigns={colorDesigns}
+            selectedColorId={selectedColorId}
+            onSelectMix={setSelectedMixId}
+            onSelectColor={setSelectedColorId}
+          />
         )}
         {activeTab === 'designs' && (
           <MixDesignManager
@@ -168,10 +168,7 @@ function App() {
             onSelect={setSelectedMixId}
           />
         )}
-        {activeTab === 'colorCalc' && colorDesigns.length > 0 && (
-          <ColorCalculator colorDesign={colorDesigns.find((d) => d.id === selectedColorId) || colorDesigns[0]} colorDesigns={colorDesigns} onSelectColor={setSelectedColorId} />
-        )}
-        {activeTab === 'colorDesigns' && (
+        {activeTab === 'colors' && (
           <ColorDesignManager
             colorDesigns={colorDesigns}
             selectedId={selectedColorId}
