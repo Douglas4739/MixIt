@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import { MixDesign, SAMPLE_MIX_DESIGNS } from './types';
+import { MixDesign, ColorDesign, SAMPLE_MIX_DESIGNS, SAMPLE_COLOR_DESIGNS } from './types';
 import MixDesignManager from './components/MixDesignManager';
+import ColorDesignManager from './components/ColorDesignManager';
 import BatchCalculator from './components/BatchCalculator';
 import VolumeCalculator from './components/VolumeCalculator';
 
 function App() {
   const [mixDesigns, setMixDesigns] = useState<MixDesign[]>([]);
   const [selectedMixId, setSelectedMixId] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'calculator' | 'designs' | 'volume'>('calculator');
+  const [colorDesigns, setColorDesigns] = useState<ColorDesign[]>([]);
+  const [selectedColorId, setSelectedColorId] = useState<string>('');
+  const [activeTab, setActiveTab] = useState<'calculator' | 'designs' | 'colors' | 'volume'>('calculator');
 
   // Load mix designs from localStorage
   useEffect(() => {
@@ -24,6 +27,21 @@ function App() {
   useEffect(() => {
     localStorage.setItem('mixDesigns', JSON.stringify(mixDesigns));
   }, [mixDesigns]);
+
+  // Load color designs from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('colorDesigns');
+    const designs = saved ? JSON.parse(saved) : SAMPLE_COLOR_DESIGNS;
+    setColorDesigns(designs);
+    if (designs.length > 0) {
+      setSelectedColorId(designs[0].id);
+    }
+  }, []);
+
+  // Save color designs to localStorage
+  useEffect(() => {
+    localStorage.setItem('colorDesigns', JSON.stringify(colorDesigns));
+  }, [colorDesigns]);
 
   const handleAddMixDesign = (design: Omit<MixDesign, 'id' | 'createdAt'>) => {
     const newDesign: MixDesign = {
@@ -59,6 +77,40 @@ function App() {
     }
   };
 
+  const handleAddColorDesign = (design: Omit<ColorDesign, 'id' | 'createdAt'>) => {
+    const newDesign: ColorDesign = {
+      ...design,
+      id: Date.now().toString(),
+      createdAt: new Date(),
+    };
+    setColorDesigns([...colorDesigns, newDesign]);
+    setSelectedColorId(newDesign.id);
+  };
+
+  const handleUpdateColorDesign = (id: string, design: Omit<ColorDesign, 'id' | 'createdAt'>) => {
+    setColorDesigns(
+      colorDesigns.map((d) =>
+        d.id === id
+          ? {
+              ...design,
+              id,
+              createdAt: d.createdAt,
+            }
+          : d
+      )
+    );
+  };
+
+  const handleDeleteColorDesign = (id: string) => {
+    const updated = colorDesigns.filter((d) => d.id !== id);
+    setColorDesigns(updated);
+    if (selectedColorId === id && updated.length > 0) {
+      setSelectedColorId(updated[0].id);
+    } else if (updated.length === 0) {
+      setSelectedColorId('');
+    }
+  };
+
   const selectedDesign = mixDesigns.find((d) => d.id === selectedMixId);
 
   return (
@@ -82,6 +134,12 @@ function App() {
           Mix Designs
         </button>
         <button
+          className={`nav-tab ${activeTab === 'colors' ? 'active' : ''}`}
+          onClick={() => setActiveTab('colors')}
+        >
+          Color Designs
+        </button>
+        <button
           className={`nav-tab ${activeTab === 'volume' ? 'active' : ''}`}
           onClick={() => setActiveTab('volume')}
         >
@@ -101,6 +159,16 @@ function App() {
             onUpdate={handleUpdateMixDesign}
             onDelete={handleDeleteMixDesign}
             onSelect={setSelectedMixId}
+          />
+        )}
+        {activeTab === 'colors' && (
+          <ColorDesignManager
+            colorDesigns={colorDesigns}
+            selectedId={selectedColorId}
+            onAdd={handleAddColorDesign}
+            onUpdate={handleUpdateColorDesign}
+            onDelete={handleDeleteColorDesign}
+            onSelect={setSelectedColorId}
           />
         )}
         {activeTab === 'volume' && <VolumeCalculator />}

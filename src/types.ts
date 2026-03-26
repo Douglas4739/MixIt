@@ -17,6 +17,20 @@ export interface MixDesign {
   createdAt: Date;
 }
 
+// Types for Color Design
+export interface Pigment {
+  name: string;
+  quantity: number;
+  unit: string;
+}
+
+export interface ColorDesign {
+  id: string;
+  name: string;
+  pigments: Pigment[];
+  createdAt: Date;
+}
+
 // Sample mix designs
 export const SAMPLE_MIX_DESIGNS: MixDesign[] = [
   {
@@ -33,6 +47,18 @@ export const SAMPLE_MIX_DESIGNS: MixDesign[] = [
       volume: 4,
       mass: 481.9,
     },
+    createdAt: new Date(),
+  },
+];
+
+// Sample color designs
+export const SAMPLE_COLOR_DESIGNS: ColorDesign[] = [
+  {
+    id: '1',
+    name: '877',
+    pigments: [
+      { name: '877', quantity: 1, unit: 'lbs' },
+    ],
     createdAt: new Date(),
   },
 ];
