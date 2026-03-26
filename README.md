@@ -40,11 +40,11 @@ A React-based web application for calculating material quantities for concrete a
 
 ### 5. **Yardage Calculator**
 - Calculate volume from dimensions (length × width × height)
-- Select dimension units: **Inches** or **Feet**
+- **Per-dimension unit selection**: Choose feet or inches for each dimension independently
 - View results in **Cubic Feet (ft³)** or **Cubic Yards (yd³)**
 - Uses the formula: `L × W × H`
 - Displays conversion summary showing both ft³ and yd³
-- Shows detailed calculation breakdown with unit conversions
+- Shows detailed calculation breakdown with unit conversions for each dimension
 
 ## Getting Started
 
@@ -137,16 +137,15 @@ Preview the production build locally.
 ### Using the Yardage Calculator
 
 1. Go to the **Yardage Calculator** tab
-2. Select your preferred **Dimension Unit** (Inches or Feet)
-3. Enter your dimensions:
-   - Length (L)
-   - Width (W)
-   - Height (H)
-4. Select your preferred **Output Unit** (Cubic Feet or Cubic Yards)
-5. Click **"Calculate Volume"**
-6. View the result in your chosen unit
-7. See the conversion summary showing both ft³ and yd³
-8. Review the detailed calculation breakdown with all conversions
+2. For each dimension, enter the value and select the unit:
+   - **Length (L)**: Enter value and choose feet or inches
+   - **Width (W)**: Enter value and choose feet or inches
+   - **Height (H)**: Enter value and choose feet or inches
+3. Select your preferred **Output Unit** (Cubic Feet or Cubic Yards)
+4. Click **"Calculate Volume"**
+5. View the result in your chosen unit
+6. See the conversion summary showing both ft³ and yd³
+7. Review the detailed calculation breakdown with all conversions
 
 ## Technology Stack
 
