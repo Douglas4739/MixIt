@@ -1,0 +1,106 @@
+.batch-calculator {
+}
+
+.info-box {
+  background-color: var(--bg-primary);
+  padding: var(--padding-md);
+  border-radius: 4px;
+  margin-bottom: var(--padding-lg);
+}
+
+.info-box p {
+  margin-bottom: 0.5rem;
+}
+
+.info-box p:last-child {
+  margin-bottom: 0;
+}
+
+.materials-table {
+  overflow-x: auto;
+  margin-bottom: var(--padding-lg);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+thead {
+  background-color: var(--bg-primary);
+  border-bottom: 2px solid var(--border-color);
+}
+
+th {
+  padding: var(--padding-md);
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+td {
+  padding: var(--padding-md);
+  border-bottom: 1px solid var(--border-color);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background-color: var(--bg-primary);
+}
+
+td.highlight {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+.characteristics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--padding-md);
+  margin-bottom: var(--padding-lg);
+}
+
+.char-box {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  padding: var(--padding-md);
+  border-radius: 8px;
+  border-left: 4px solid var(--accent-color);
+  text-align: center;
+}
+
+.char-box strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.char-box p {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .materials-table {
+    overflow-x: scroll;
+  }
+
+  table {
+    font-size: 0.875rem;
+  }
+
+  th,
+  td {
+    padding: 0.5rem;
+  }
+}

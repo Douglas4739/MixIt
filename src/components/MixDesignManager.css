@@ -1,0 +1,66 @@
+.mix-design-manager {
+}
+
+.mix-design-card {
+  position: relative;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.mix-design-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.mix-design-card.selected {
+  border-color: var(--accent-color);
+  background-color: rgba(0, 102, 204, 0.05);
+}
+
+.mix-design-card h3 {
+  margin-bottom: var(--padding-md);
+  color: var(--accent-color);
+}
+
+.characteristics {
+  background-color: var(--bg-primary);
+  padding: var(--padding-md);
+  border-radius: 4px;
+  margin-bottom: var(--padding-md);
+}
+
+.characteristics div {
+  margin-bottom: 0.5rem;
+}
+
+.characteristics div:last-child {
+  margin-bottom: 0;
+}
+
+.materials-preview {
+  margin-bottom: var(--padding-md);
+}
+
+.materials-preview ul {
+  margin: var(--padding-md) 0 0 var(--padding-lg);
+  padding: 0;
+}
+
+.materials-preview li {
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.mix-design-card .flex {
+  margin-top: var(--padding-md);
+}
+
+h4 {
+  margin-bottom: var(--padding-md);
+  margin-top: var(--padding-lg);
+  color: var(--text-primary);
+}
+
+h4:first-child {
+  margin-top: 0;
+}
