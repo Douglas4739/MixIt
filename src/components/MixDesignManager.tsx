@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MixDesign, Material } from '../types';
+import { MixDesign, Material, PRESET_MIX_DESIGNS } from '../types';
 import './MixDesignManager.css';
 
 interface Props {
@@ -130,6 +130,38 @@ export default function MixDesignManager({
 
         {!showForm ? (
           <div className="card-row">
+            {PRESET_MIX_DESIGNS.map((design) => (
+              <div key={design.id} className={`card mix-design-card preset-card ${selectedId === design.id ? 'selected' : ''}`}>
+                <div className="preset-badge">Preset</div>
+                <h3>{design.name}</h3>
+                <div className="characteristics">
+                  <div>
+                    <strong>Density:</strong> {design.characteristics.density} lbs/ft³
+                  </div>
+                  <div>
+                    <strong>Volume:</strong> {design.characteristics.volume} ft³
+                  </div>
+                  <div>
+                    <strong>Mass:</strong> {design.characteristics.mass} lbs
+                  </div>
+                </div>
+                <div className="materials-preview">
+                  <strong>Materials:</strong>
+                  <ul>
+                    {design.materials.map((material, idx) => (
+                      <li key={idx}>
+                        {material.name}: {material.quantity} {material.unit}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="flex" style={{ gap: '0.5rem' }}>
+                  <button className="btn-secondary btn-small" onClick={() => onSelect(design.id)}>
+                    Select
+                  </button>
+                </div>
+              </div>
+            ))}
             {mixDesigns.map((design) => (
               <div key={design.id} className={`card mix-design-card ${selectedId === design.id ? 'selected' : ''}`}>
                 <h3>{design.name}</h3>
@@ -167,7 +199,7 @@ export default function MixDesignManager({
                 </div>
               </div>
             ))}
-            {mixDesigns.length === 0 && <p>No mix designs yet. Create one to get started!</p>}
+            {mixDesigns.length === 0 && <p className="no-user-designs">No custom mix designs yet. Create one to get started!</p>}
           </div>
         ) : (
           <div className="card">

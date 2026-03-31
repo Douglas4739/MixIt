@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import { MixDesign, ColorDesign, Job, SAMPLE_MIX_DESIGNS, SAMPLE_COLOR_DESIGNS } from './types';
+import { MixDesign, ColorDesign, Job, PRESET_MIX_DESIGNS, SAMPLE_MIX_DESIGNS, SAMPLE_COLOR_DESIGNS } from './types';
 import MixDesignManager from './components/MixDesignManager';
 import ColorDesignManager from './components/ColorDesignManager';
 import BatchCalculator from './components/BatchCalculator';
@@ -35,8 +35,11 @@ function App() {
     const saved = localStorage.getItem('mixDesigns');
     const designs = saved ? JSON.parse(saved) : SAMPLE_MIX_DESIGNS;
     setMixDesigns(designs);
+    // Default selection: first user design, or fall back to first preset
     if (designs.length > 0) {
       setSelectedMixId(designs[0].id);
+    } else if (PRESET_MIX_DESIGNS.length > 0) {
+      setSelectedMixId(PRESET_MIX_DESIGNS[0].id);
     }
   }, []);
 
@@ -140,8 +143,10 @@ function App() {
     }
   };
 
+  const allMixDesigns = [...PRESET_MIX_DESIGNS, ...mixDesigns];
+
   const handleSaveJob = (jobName: string, batchCount: number) => {
-    const selectedDesign = mixDesigns.find((d) => d.id === selectedMixId);
+    const selectedDesign = allMixDesigns.find((d) => d.id === selectedMixId);
     if (!selectedDesign) {
       return;
     }
@@ -186,7 +191,7 @@ function App() {
       return;
     }
 
-    const hasMix = mixDesigns.some((mix) => mix.id === job.mixDesignId);
+    const hasMix = allMixDesigns.some((mix) => mix.id === job.mixDesignId);
     if (hasMix) {
       setSelectedMixId(job.mixDesignId);
     }
@@ -209,7 +214,7 @@ function App() {
     setIsMenuOpen(false);
   };
 
-  const selectedDesign = mixDesigns.find((d) => d.id === selectedMixId);
+  const selectedDesign = allMixDesigns.find((d) => d.id === selectedMixId);
 
   return (
     <div className="app">
@@ -252,7 +257,7 @@ function App() {
         {activeTab === 'calculator' && selectedDesign && (
           <BatchCalculator 
             mixDesign={selectedDesign} 
-            mixDesigns={mixDesigns} 
+            mixDesigns={allMixDesigns} 
             colorDesigns={colorDesigns}
             selectedMixId={selectedMixId}
             selectedColorId={selectedColorId}
@@ -290,7 +295,7 @@ function App() {
             onSelect={setSelectedColorId}
           />
         )}
-        {activeTab === 'volume' && <VolumeCalculator mixDesigns={mixDesigns} />}
+        {activeTab === 'volume' && <VolumeCalculator mixDesigns={allMixDesigns} />}
         {activeTab === 'yardage' && <YardageCalculator />}
         {activeTab === 'jobs' && (
           <JobsManager jobs={jobs} onDelete={handleDeleteJob} onLoad={handleLoadJob} />

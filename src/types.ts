@@ -61,25 +61,28 @@ export interface Job {
   createdAt: string;
 }
 
-// Sample mix designs
-export const SAMPLE_MIX_DESIGNS: MixDesign[] = [
+// Hardcoded preset mix designs — always visible, never editable or deletable
+export const PRESET_MIX_DESIGNS: MixDesign[] = [
   {
-    id: '1',
-    name: 'Lightweight Batch VP',
+    id: 'preset-lwvp',
+    name: 'Lightweight VP',
     materials: [
-      { name: 'Cement', quantity: 94, unit: 'lbs' },
-      { name: 'Plasticizer', quantity: 45, unit: 'g' },
-      { name: 'Lightweight mix', quantity: 338.25, unit: 'lbs' },
-      { name: 'Water', quantity: 4.8, unit: 'gal' },
+      { name: 'Cement', quantity: 94, unit: 'lbs.' },
+      { name: 'LW Rock/Sand mix', quantity: 338.45, unit: 'lbs.' },
+      { name: 'Water', quantity: 4.8, unit: 'gal.' },
+      { name: 'Plasticizer', quantity: 45, unit: 'g.' },
     ],
     characteristics: {
-      density: 120.475,
+      density: 120.525,
       volume: 4,
-      mass: 481.9,
+      mass: 482.1,
     },
-    createdAt: new Date(),
+    createdAt: new Date('2026-01-01'),
   },
 ];
+
+// Sample mix designs (used as default when no user data exists in localStorage)
+export const SAMPLE_MIX_DESIGNS: MixDesign[] = [];
 
 // Sample color designs
 export const SAMPLE_COLOR_DESIGNS: ColorDesign[] = [

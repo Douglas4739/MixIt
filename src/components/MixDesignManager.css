@@ -1,6 +1,29 @@
 .mix-design-manager {
 }
 
+.preset-card {
+  border-left: 4px solid var(--accent-color);
+}
+
+.preset-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-color);
+  background-color: rgba(0, 102, 204, 0.1);
+  border: 1px solid var(--accent-color);
+  border-radius: 3px;
+  padding: 0.1rem 0.45rem;
+  margin-bottom: 0.5rem;
+}
+
+.no-user-designs {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
 .mix-design-card {
   position: relative;
   transition: all 0.3s ease;
