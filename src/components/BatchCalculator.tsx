@@ -6,21 +6,35 @@ interface Props {
   mixDesign: MixDesign;
   mixDesigns: MixDesign[];
   colorDesigns: ColorDesign[];
+  selectedMixId: string;
   selectedColorId: string;
+  initialBatches: number;
+  resetSignal: number;
   onSelectMix: (id: string) => void;
   onSelectColor: (id: string) => void;
+  onSaveJob: (jobName: string, batchCount: number) => void;
+  onOpenJobs: () => void;
 }
 
 export default function BatchCalculator({ 
   mixDesign, 
   mixDesigns, 
   colorDesigns,
+  selectedMixId,
   selectedColorId,
+  initialBatches,
+  resetSignal,
   onSelectMix,
-  onSelectColor
+  onSelectColor,
+  onSaveJob,
+  onOpenJobs
 }: Props) {
-  const [numBatches, setNumBatches] = useState(1);
+  const [numBatches, setNumBatches] = useState(initialBatches);
   const selectedColor = colorDesigns.find((d) => d.id === selectedColorId);
+
+  React.useEffect(() => {
+    setNumBatches(initialBatches);
+  }, [initialBatches, resetSignal]);
 
   const handleBatchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(0.1, Number(e.target.value));
@@ -32,6 +46,79 @@ export default function BatchCalculator({
   };
 
   const totalMass = mixDesign.characteristics.mass * numBatches;
+
+  const buildBatchSummary = () => {
+    const header = [
+      `Job Summary`,
+      `Mix Design: ${mixDesign.name}`,
+      `Color Design: ${selectedColor?.name || 'None'}`,
+      `Batch Count: ${numBatches}`,
+      `Total Mass: ${totalMass.toFixed(2)} lbs`,
+      `Total Volume: ${(mixDesign.characteristics.volume * numBatches).toFixed(2)} ft3`,
+      '',
+      'Materials:',
+      ...mixDesign.materials.map(
+        (material) =>
+          `- ${material.name}: ${calculateMaterial(material.quantity).toFixed(2)} ${material.unit}`
+      ),
+    ];
+
+    if (selectedColor) {
+      header.push('', 'Pigments:');
+      header.push(
+        ...selectedColor.pigments.map(
+          (pigment) =>
+            `- ${pigment.name}: ${calculateMaterial(pigment.quantity).toFixed(2)} ${pigment.unit}`
+        )
+      );
+    }
+
+    return header.join('\n');
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleShare = async () => {
+    const summaryText = buildBatchSummary();
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Batch Summary - ${mixDesign.name}`,
+          text: summaryText,
+        });
+        return;
+      } catch {
+        // Fall through to clipboard for declined or unsupported share scenarios.
+      }
+    }
+
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(summaryText);
+      alert('Batch summary copied to clipboard.');
+      return;
+    }
+
+    alert('Share is not available on this device.');
+  };
+
+  const handleSave = () => {
+    if (!selectedMixId) {
+      alert('Please select a mix design before saving a job.');
+      return;
+    }
+
+    const jobName = window.prompt('Enter a Job Name:');
+    if (!jobName || !jobName.trim()) {
+      alert('Job name is required.');
+      return;
+    }
+
+    onSaveJob(jobName.trim(), numBatches);
+    onOpenJobs();
+  };
 
   return (
     <div className="batch-calculator">
@@ -77,6 +164,23 @@ export default function BatchCalculator({
               </select>
             </div>
           )}
+
+          <div className="calculator-actions no-print">
+            <button type="button" className="btn-secondary" onClick={handlePrint}>
+              Print
+            </button>
+            <button type="button" className="btn-secondary" onClick={handleShare}>
+              Share
+            </button>
+            <button
+              type="button"
+              className="btn-success"
+              onClick={handleSave}
+              disabled={!selectedMixId}
+            >
+              Save
+            </button>
+          </div>
         </div>
 
         <div className="results-container">

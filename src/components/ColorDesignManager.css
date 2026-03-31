@@ -40,6 +40,11 @@
   margin-top: var(--padding-md);
 }
 
+.label-with-tooltip {
+  display: inline-flex;
+  align-items: center;
+}
+
 h4 {
   margin-bottom: var(--padding-md);
   margin-top: var(--padding-lg);

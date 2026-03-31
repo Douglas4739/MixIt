@@ -31,6 +31,36 @@ export interface ColorDesign {
   createdAt: Date;
 }
 
+// Types for saved jobs
+export interface JobMaterialSnapshot {
+  name: string;
+  quantityPerBatch: number;
+  totalQuantity: number;
+  unit: string;
+}
+
+export interface JobPigmentSnapshot {
+  name: string;
+  quantityPerBatch: number;
+  totalQuantity: number;
+  unit: string;
+}
+
+export interface Job {
+  id: string;
+  name: string;
+  mixDesignId: string;
+  mixDesignName: string;
+  colorDesignId: string;
+  colorDesignName: string;
+  batchCount: number;
+  totalMass: number;
+  totalVolume: number;
+  materials: JobMaterialSnapshot[];
+  pigments: JobPigmentSnapshot[];
+  createdAt: string;
+}
+
 // Sample mix designs
 export const SAMPLE_MIX_DESIGNS: MixDesign[] = [
   {

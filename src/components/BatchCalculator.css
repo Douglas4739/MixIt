@@ -1,6 +1,13 @@
 .batch-calculator {
 }
 
+.calculator-actions {
+  margin-top: var(--padding-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
 .info-box {
   background-color: var(--bg-primary);
   padding: var(--padding-md);
@@ -96,6 +103,14 @@ td.highlight {
 }
 
 @media (max-width: 768px) {
+  .calculator-actions {
+    flex-direction: column;
+  }
+
+  .calculator-actions button {
+    width: 100%;
+  }
+
   .materials-table {
     overflow-x: scroll;
   }
@@ -107,5 +122,19 @@ td.highlight {
   th,
   td {
     padding: 0.5rem;
+  }
+}
+
+@media print {
+  .no-print,
+  .calculator-actions,
+  .app-nav,
+  .app-header {
+    display: none !important;
+  }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #bdbdbd;
   }
 }

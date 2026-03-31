@@ -1,0 +1,54 @@
+.jobs-manager {
+}
+
+.jobs-empty-state {
+  text-align: center;
+}
+
+.jobs-empty-state h3 {
+  margin-bottom: 0.5rem;
+}
+
+.job-card h3 {
+  color: var(--accent-color);
+  margin-bottom: var(--padding-md);
+}
+
+.job-summary p {
+  margin-bottom: 0.4rem;
+}
+
+.job-details {
+  margin-top: var(--padding-md);
+  padding-top: var(--padding-md);
+  border-top: 1px solid var(--border-color);
+}
+
+.job-details h4 {
+  margin: var(--padding-md) 0 0.5rem;
+}
+
+.job-details ul {
+  margin-left: 1.2rem;
+}
+
+.job-details li {
+  margin-bottom: 0.25rem;
+}
+
+.job-actions {
+  margin-top: var(--padding-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .job-actions {
+    flex-direction: column;
+  }
+
+  .job-actions button {
+    width: 100%;
+  }
+}

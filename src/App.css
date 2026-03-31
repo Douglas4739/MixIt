@@ -55,11 +55,59 @@ body {
 
 .app-nav {
   display: flex;
-  gap: var(--padding-md);
+  justify-content: center;
+  align-items: center;
+  position: relative;
   padding: var(--padding-md);
   background-color: var(--bg-secondary);
   border-bottom: 2px solid var(--border-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.nav-tab-list {
+  display: flex;
+  gap: var(--padding-md);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.hamburger-btn {
+  display: none;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.hamburger-icon {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hamburger-icon span {
+  width: 1rem;
+  height: 2px;
+  background-color: white;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.hamburger-icon.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.hamburger-icon.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-icon.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.hamburger-label {
+  font-weight: 600;
 }
 
 .nav-tab {
@@ -231,11 +279,71 @@ button {
     grid-template-columns: 1fr;
   }
 
+  .nav-tab {
+    padding: var(--padding-md);
+  }
+}
+
+@media (max-width: 999px) {
   .app-nav {
-    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .hamburger-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 110px;
+  }
+
+  .nav-tab-list {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    z-index: 12;
+  }
+
+  .nav-tab-list.open {
+    display: flex;
   }
 
   .nav-tab {
-    padding: var(--padding-md);
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 0;
+  }
+
+  .nav-tab:last-child {
+    border-bottom: none;
+  }
+
+  .nav-tab.active {
+    border-bottom-color: var(--border-color);
+    background-color: rgba(0, 102, 204, 0.08);
+  }
+}
+
+@media print {
+  body {
+    background-color: white;
+  }
+
+  .app-header,
+  .app-nav,
+  button {
+    display: none !important;
+  }
+
+  .app-content {
+    max-width: none;
+    padding: 0;
   }
 }

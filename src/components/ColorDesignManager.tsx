@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ColorDesign, Pigment } from '../types';
+import InfoTooltip from './InfoTooltip';
 import './ColorDesignManager.css';
 
 interface Props {
@@ -19,6 +20,9 @@ export default function ColorDesignManager({
   onDelete,
   onSelect,
 }: Props) {
+  const scalingTooltipText =
+    'Values are based on 1 batch of the selected mix design. These amounts will scale automatically with batch calculations.';
+
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<string | null>(null);
   const [formData, setFormData] = useState<Omit<ColorDesign, 'id' | 'createdAt'>>({
@@ -169,7 +173,13 @@ export default function ColorDesignManager({
                       />
                     </div>
                     <div>
-                      <label>Quantity *</label>
+                      <label className="label-with-tooltip">
+                        Quantity *
+                        <InfoTooltip
+                          text={scalingTooltipText}
+                          ariaLabel="Quantity input help"
+                        />
+                      </label>
                       <input
                         type="number"
                         value={pigment.quantity}
@@ -179,7 +189,13 @@ export default function ColorDesignManager({
                       />
                     </div>
                     <div>
-                      <label>Unit *</label>
+                      <label className="label-with-tooltip">
+                        Unit *
+                        <InfoTooltip
+                          text={scalingTooltipText}
+                          ariaLabel="Unit input help"
+                        />
+                      </label>
                       <input
                         type="text"
                         value={pigment.unit}
