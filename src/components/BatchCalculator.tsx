@@ -30,6 +30,7 @@ export default function BatchCalculator({
   onOpenJobs
 }: Props) {
   const [numBatches, setNumBatches] = useState(initialBatches);
+  const [margin, setMargin] = useState(0);
   const selectedColor = colorDesigns.find((d) => d.id === selectedColorId);
 
   React.useEffect(() => {
@@ -41,11 +42,18 @@ export default function BatchCalculator({
     setNumBatches(value);
   };
 
-  const calculateMaterial = (baseQuantity: number) => {
-    return baseQuantity * numBatches;
+  const handleMarginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Math.max(0, Math.min(100, Number(e.target.value)));
+    setMargin(value);
   };
 
-  const totalMass = mixDesign.characteristics.mass * numBatches;
+  const marginFactor = 1 + margin / 100;
+
+  const calculateMaterial = (baseQuantity: number) => {
+    return baseQuantity * numBatches * marginFactor;
+  };
+
+  const totalMass = mixDesign.characteristics.mass * numBatches * marginFactor;
 
   const buildBatchSummary = () => {
     const header = [
@@ -53,8 +61,9 @@ export default function BatchCalculator({
       `Mix Design: ${mixDesign.name}`,
       `Color Design: ${selectedColor?.name || 'None'}`,
       `Batch Count: ${numBatches}`,
+      ...(margin > 0 ? [`Margin: ${margin}%`] : []),
       `Total Mass: ${totalMass.toFixed(2)} lbs`,
-      `Total Volume: ${(mixDesign.characteristics.volume * numBatches).toFixed(2)} ft3`,
+      `Total Volume: ${(mixDesign.characteristics.volume * numBatches * marginFactor).toFixed(2)} ft3`,
       '',
       'Materials:',
       ...mixDesign.materials.map(
@@ -126,7 +135,7 @@ export default function BatchCalculator({
         <h2 className="section-title">Batch Calculator</h2>
 
         <div className="card">
-          <div className="grid-2">
+          <div className="grid-3">
             <div>
               <label>Select Mix Design</label>
               <select value={mixDesign.id} onChange={(e) => onSelectMix(e.target.value)}>
@@ -147,6 +156,19 @@ export default function BatchCalculator({
                 min="0.1"
                 step="0.1"
                 placeholder="Enter number of batches"
+              />
+            </div>
+
+            <div>
+              <label>Margin %</label>
+              <input
+                type="number"
+                value={margin}
+                onChange={handleMarginChange}
+                min="0"
+                max="100"
+                step="1"
+                placeholder="0"
               />
             </div>
           </div>
@@ -193,6 +215,14 @@ export default function BatchCalculator({
               <p>
                 <strong>Number of Batches:</strong> {numBatches}
               </p>
+              {margin > 0 && (
+                <p>
+                  <strong>Margin:</strong> {margin}% &nbsp;
+                  <span style={{ color: 'var(--color-text-muted)', fontSize: '0.85em' }}>
+                    (×{marginFactor.toFixed(3)} applied to all quantities)
+                  </span>
+                </p>
+              )}
               <p>
                 <strong>Total Mass Required:</strong> {totalMass.toFixed(2)} lbs
               </p>
@@ -209,7 +239,7 @@ export default function BatchCalculator({
                     <th>×</th>
                     <th>Batches</th>
                     <th>=</th>
-                    <th>Total Needed</th>
+                    <th>{margin > 0 ? `Total + ${margin}% Margin` : 'Total Needed'}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -240,7 +270,7 @@ export default function BatchCalculator({
               </div>
               <div className="char-box">
                 <strong>Total Volume</strong>
-                <p>{(mixDesign.characteristics.volume * numBatches).toFixed(2)} ft³</p>
+                <p>{(mixDesign.characteristics.volume * numBatches * marginFactor).toFixed(2)} ft³</p>
               </div>
             </div>
 
@@ -257,7 +287,7 @@ export default function BatchCalculator({
                         <th>×</th>
                         <th>Batches</th>
                         <th>=</th>
-                        <th>Total Needed</th>
+                        <th>{margin > 0 ? `Total + ${margin}% Margin` : 'Total Needed'}</th>
                       </tr>
                     </thead>
                     <tbody>
