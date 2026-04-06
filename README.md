@@ -165,6 +165,23 @@ Works on all modern browsers that support:
 - CSS Grid and Flexbox
 - Local Storage API
 
+## GitHub Pages Deployment
+
+This repository is configured to deploy automatically to GitHub Pages from the `main` branch using GitHub Actions.
+
+### One-time setup in GitHub
+
+1. Open your repository on GitHub.
+2. Go to **Settings > Pages**.
+3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+
+### Deploy flow
+
+1. Push changes to `main`.
+2. The workflow at `.github/workflows/deploy.yml` builds the app and publishes `dist/`.
+3. Your site will be available at:
+   - `https://douglas4739.github.io/MixIt/`
+
 ## License
 
 ISC
